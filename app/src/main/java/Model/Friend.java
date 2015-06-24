@@ -12,6 +12,9 @@ public class Friend {
         this.image = image;
     }
 
+    public Friend(){
+    }
+
 
     public String getName() {
         return name;
