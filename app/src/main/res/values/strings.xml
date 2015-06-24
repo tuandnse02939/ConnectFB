@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ConnectFB</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">598160223621101</string>
+    <string name="status">Status:</string>
+    <string name="post">Post</string>
+    <string name="hint_status">How do you feel now?</string>
+    <string name="user_name">user_name</string>
+    <string name="friend_list">Friend List</string>
+
+</resources>
