@@ -45,8 +45,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.login_screen);
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends","publish_actions","user_posts","me/feed");
-//        loginButton.setPublishPermissions("publish_actions","basic_info");
+        loginButton.setReadPermissions("user_friends");
 
 //        Check if another already logged in
         if(AccessToken.getCurrentAccessToken() != null){
@@ -62,16 +61,16 @@ public class LoginActivity extends Activity {
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    accessToken = loginResult.getAccessToken();
-                    Profile profile = Profile.getCurrentProfile();
-//                    Toast.makeText(getApplicationContext(), profile.getName(), Toast.LENGTH_LONG).show();
 
-                    Context context = getApplicationContext();
-                    mSharedPreferences = context.getSharedPreferences("",Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString(getString(R.string.user_name), profile.getName());
-                    editor.commit();
+//                    accessToken = loginResult.getAccessToken();
+//                    Profile profile = Profile.getCurrentProfile();
+//                    Context context = getApplicationContext();
+//                    mSharedPreferences = context.getSharedPreferences("",Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+//                    editor.putString(getString(R.string.user_name), profile.getName());
+//                    editor.commit();
 
+                    //Start Main Activity
                     Intent i = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(i);
                     finish();
@@ -97,25 +96,4 @@ public class LoginActivity extends Activity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

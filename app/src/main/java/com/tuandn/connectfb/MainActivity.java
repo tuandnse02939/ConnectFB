@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.Profile;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -38,13 +39,14 @@ public class MainActivity extends Activity {
     }
 
     private void displayUsername() {
-        Context context = getApplicationContext();
-        mSharedPreferences = context.getSharedPreferences("",Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.user_name);
-        String username = mSharedPreferences.getString(getString(R.string.user_name), defaultValue);
+//        Context context = getApplicationContext();
+//        mSharedPreferences = context.getSharedPreferences("",Context.MODE_PRIVATE);
+//        String defaultValue = getResources().getString(R.string.user_name);
+//        String username = mSharedPreferences.getString(getString(R.string.user_name), defaultValue);
 
+        Profile profile = Profile.getCurrentProfile();
         TextView welcome = (TextView) findViewById(R.id.user_name);
-        welcome.setText("Hello, " + username);
+        welcome.setText("Hello, " + profile.getName());
     }
 
     public void postOnWall(View v){

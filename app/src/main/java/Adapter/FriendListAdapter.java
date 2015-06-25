@@ -46,19 +46,21 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        ViewHolder holder;
         if(convertView == null){
             convertView = inflater.from(context).inflate(com.tuandn.connectfb.R.layout.friend_list,null);
-            TextView name = (TextView) convertView.findViewById(R.id.friend_name);
-            ImageView userImage = (ImageView) convertView.findViewById(R.id.imageID);
-
-            //Display Friends'avatar and name
-            name.setText(mList.get(position).getName());
-            showImage(mList.get(position).getImage(),convertView);
+            holder = new ViewHolder();
+            holder.name = (TextView) convertView.findViewById(R.id.friend_name);
+            holder.userImage = (ImageView) convertView.findViewById(R.id.imageID);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder)convertView.getTag();
         }
+        //Display Friends'avatar and name
+        holder.name.setText(mList.get(position).getName());
+        showImage(mList.get(position).getImage(),convertView);
         return convertView;
     }
 
@@ -87,4 +89,8 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
         }
     }
 
+    static class ViewHolder {
+        TextView name;
+        ImageView userImage;
+    }
 }

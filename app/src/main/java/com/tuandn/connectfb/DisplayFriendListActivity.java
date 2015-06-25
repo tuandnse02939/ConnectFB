@@ -35,6 +35,7 @@ public class DisplayFriendListActivity extends ListActivity {
     private ArrayList<Friend> friendList;
     private FriendListAdapter adapter;
     private ListView mListView;
+    private boolean check = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +53,12 @@ public class DisplayFriendListActivity extends ListActivity {
     }
 
     public void getFriends(String url) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("limit","250");
         GraphRequestAsyncTask graphRequestAsyncTask = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/me/taggable_friends",
-                null,
+                bundle,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
@@ -77,10 +79,7 @@ public class DisplayFriendListActivity extends ListActivity {
                                 f.setImage(image);
                                 friendList.add(f);
                             }
-
-
                         } catch (Exception e) {
-
                         }
                         setListAdapter(new FriendListAdapter(getApplicationContext(), friendList));
                     }
@@ -88,6 +87,7 @@ public class DisplayFriendListActivity extends ListActivity {
 
         ).executeAsync();
 
+//        GraphRequestBatch batch = new GraphRequestBatch(new GraphRequest(AccessToken.getCurrentAccessToken(),url,null,null))
     }
 
     private String cutString(String dataResponse) {
