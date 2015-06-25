@@ -81,8 +81,6 @@ public class DisplayFriendListActivity extends ListActivity {
                 }
 
         ).executeAsync();
-
-//        GraphRequestBatch batch = new GraphRequestBatch(new GraphRequest(AccessToken.getCurrentAccessToken(),url,null,null))
     }
 
     private String cutString(String dataResponse) {

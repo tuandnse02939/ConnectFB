@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
     }
 
     public void postOnWall(View v){
-
+        //Check if you are connecting to Internet
         if(Utils.isConnectingToInternet(getApplicationContext())){
             if (ShareDialog.canShow(ShareLinkContent.class)) {
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
@@ -95,12 +95,6 @@ public class MainActivity extends Activity {
         else {
             Toast.makeText(getApplicationContext(),"You are not connecting to the Internet",Toast.LENGTH_LONG).show();
         }
-
-//        EditText status = (EditText) findViewById(R.id.et_status);
-//        String status_content = status.getText().toString();
-
-
-
     }
 
     public void ShowFriendList(View v){
