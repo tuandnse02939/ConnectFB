@@ -1,22 +1,15 @@
 package com.tuandn.connectfb;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Context;
-import android.content.pm.PackageInstaller;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphRequestAsyncTask;
-import com.facebook.GraphRequestBatch;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.google.android.imageloader.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,12 +18,13 @@ import java.util.ArrayList;
 
 import Adapter.FriendListAdapter;
 import Model.Friend;
-import Model.FriendWrapper;
 
 /**
  * Created by Anh Trung on 6/24/2015.
  */
 public class DisplayFriendListActivity extends ListActivity {
+
+    private static final String FriendLimit = "250";
 
     private ArrayList<Friend> friendList;
     private FriendListAdapter adapter;
@@ -40,9 +34,8 @@ public class DisplayFriendListActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.friendlist_activity);
 
-
+        //Display Friend List
         displayFriendList();
     }
 
@@ -54,10 +47,10 @@ public class DisplayFriendListActivity extends ListActivity {
 
     public void getFriends(String url) {
         Bundle bundle = new Bundle();
-        bundle.putString("limit","250");
+        bundle.putString("limit",FriendLimit);
         GraphRequestAsyncTask graphRequestAsyncTask = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/me/taggable_friends",
+                url,
                 bundle,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
@@ -67,13 +60,15 @@ public class DisplayFriendListActivity extends ListActivity {
                         try {
                             friendList = new ArrayList<Friend>();
                             JSONObject jsonObject2 = new JSONObject(dataResponse);
-                            JSONArray jsonArray = jsonObject2.getJSONArray("data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            JSONArray user_data = jsonObject2.getJSONArray("data");
+                            for (int i = 0; i < user_data.length(); i++) {
+                                JSONObject jsonObject = user_data.getJSONObject(i);
+                                //Get name of friend
                                 String name = jsonObject.getString("name");
                                 JSONObject picture = jsonObject.getJSONObject("picture");
-                                JSONObject jsonObject3 = picture.getJSONObject("data");
-                                String image = jsonObject3.getString("url");
+                                JSONObject picture_data = picture.getJSONObject("data");
+                                //Get url of friend's image
+                                String image = picture_data.getString("url");
                                 Friend f = new Friend();
                                 f.setName(name);
                                 f.setImage(image);
@@ -81,7 +76,7 @@ public class DisplayFriendListActivity extends ListActivity {
                             }
                         } catch (Exception e) {
                         }
-                        setListAdapter(new FriendListAdapter(getApplicationContext(), friendList));
+                        setListAdapter(new FriendListAdapter(DisplayFriendListActivity.this, friendList));
                     }
                 }
 
