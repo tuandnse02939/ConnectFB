@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.internal.ImageRequest;
+import com.google.android.imageloader.ImageLoader;
 import com.tuandn.connectfb.R;
 
 import java.io.InputStream;
@@ -31,6 +33,7 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
     private Context context;
     private final ArrayList<Friend> mList;
     private LayoutInflater mInflater;
+    private ImageLoader imageLoader;
 
     public FriendListAdapter(Context context, ArrayList<Friend> mListFriend){
         super(context,R.layout.friend_list, mListFriend);
@@ -38,17 +41,11 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
         this.mList = mListFriend;
     }
 
-    public void showImage(String img_url, View v){
-        new DownloadImageTask((ImageView) v.findViewById(R.id.imageID))
-                .execute(img_url);
-    }
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewHolder holder;
+        final ViewHolder holder;
         if(convertView == null){
             convertView = inflater.from(context).inflate(com.tuandn.connectfb.R.layout.friend_list,null);
             holder = new ViewHolder();
@@ -58,36 +55,28 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
         } else {
             holder = (ViewHolder)convertView.getTag();
         }
-        //Display Friends'avatar and name
+        //Set Friend's name
         holder.name.setText(mList.get(position).getName());
-        showImage(mList.get(position).getImage(),convertView);
+
+        //Set Friend Image
+        ImageLoader.Callback callback = new ImageLoader.Callback() {
+            @Override
+            public void onImageLoaded(ImageView imageView, String s) {
+                holder.userImage = imageView;
+            }
+
+            @Override
+            public void onImageError(ImageView imageView, String s, Throwable throwable) {
+
+            }
+        };
+
+        imageLoader = new ImageLoader();
+        imageLoader.bind(holder.userImage,mList.get(position).getImage(),callback);
         return convertView;
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 
     static class ViewHolder {
         TextView name;
