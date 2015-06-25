@@ -51,14 +51,16 @@
         android:text="@string/friend_list"
         android:onClick="ShowFriendList"
         android:id="@+id/friend_list" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
         android:gravity="center"
-        />
+        android:background="@android:color/holo_blue_dark"
+        android:text="@string/com_facebook_loginview_log_out_button"
+        android:onClick="logout"
+        android:id="@+id/logout"
+        android:layout_below="@+id/friend_list"
+        android:layout_alignEnd="@+id/post"
+        android:layout_marginTop="58dp" />
 
 </RelativeLayout>

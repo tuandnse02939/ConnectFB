@@ -9,5 +9,9 @@
     <string name="hint_status">How do you feel now?</string>
     <string name="user_name">user_name</string>
     <string name="friend_list">Friend List</string>
+    <string name="logout">Logout</string>
+    <string name="logout_message">Do you want to logout?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
