@@ -62,22 +62,11 @@ public class LoginActivity extends Activity {
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-
-//                    accessToken = loginResult.getAccessToken();
-//                    Profile profile = Profile.getCurrentProfile();
-//                    Context context = getApplicationContext();
-//                    mSharedPreferences = context.getSharedPreferences("",Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-//                    editor.putString(getString(R.string.user_name), profile.getName());
-//                    editor.commit();
-
                     //Start Main Activity
                     Intent i = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(i);
                     finish();
-
                 }
-
                 @Override
                 public void onCancel() {
                     Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_LONG).show();
@@ -96,5 +85,4 @@ public class LoginActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
 }

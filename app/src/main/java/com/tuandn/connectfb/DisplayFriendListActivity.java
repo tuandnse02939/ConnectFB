@@ -3,6 +3,7 @@ package com.tuandn.connectfb;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -55,31 +56,40 @@ public class DisplayFriendListActivity extends ListActivity {
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        String dataResponse = response.toString();
-                        dataResponse = cutString(dataResponse);
-                        try {
-                            friendList = new ArrayList<Friend>();
-                            JSONObject jsonObject2 = new JSONObject(dataResponse);
-                            JSONArray user_data = jsonObject2.getJSONArray("data");
-                            for (int i = 0; i < user_data.length(); i++) {
-                                JSONObject jsonObject = user_data.getJSONObject(i);
-                                //Get name of friend
-                                String name = jsonObject.getString("name");
-                                JSONObject picture = jsonObject.getJSONObject("picture");
-                                JSONObject picture_data = picture.getJSONObject("data");
-                                //Get url of friend's image
-                                String image = picture_data.getString("url");
-                                Friend f = new Friend();
-                                f.setName(name);
-                                f.setImage(image);
-                                friendList.add(f);
-                            }
-                        } catch (Exception e) {
+                        if (response == null) {
+                            Toast.makeText(getApplication(), "Getting list friends failed", Toast.LENGTH_LONG).show();
                         }
-                        setListAdapter(new FriendListAdapter(DisplayFriendListActivity.this, friendList));
+                        else{
+                            String dataResponse = response.toString();
+                            dataResponse = cutString(dataResponse);
+                            try {
+                                friendList = new ArrayList<Friend>();
+                                JSONObject jsonObject2 = new JSONObject(dataResponse);
+                                JSONArray user_data = jsonObject2.getJSONArray("data");
+                                for (int i = 0; i < user_data.length(); i++) {
+                                    JSONObject jsonObject = user_data.getJSONObject(i);
+                                    //Get name of friend
+                                    String name = jsonObject.getString("name");
+                                    JSONObject picture = jsonObject.getJSONObject("picture");
+                                    JSONObject picture_data = picture.getJSONObject("data");
+                                    //Get url of friend's image
+                                    String image = picture_data.getString("url");
+                                    Friend f = new Friend();
+                                    f.setName(name);
+                                    f.setImage(image);
+                                    friendList.add(f);
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(getApplication(),"Getting data failed",Toast.LENGTH_LONG).show();
+                                    }
+                                if(friendList!=null) {
+                                    setListAdapter(new FriendListAdapter(DisplayFriendListActivity.this, friendList));
+                                } else {
+                                    Toast.makeText(getApplication(),"Getting Friend List failed",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
                     }
-                }
-
         ).executeAsync();
     }
 

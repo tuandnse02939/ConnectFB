@@ -48,8 +48,13 @@ public class MainActivity extends Activity {
 
     private void displayUsername() {
         Profile profile = Profile.getCurrentProfile();
-        TextView welcome = (TextView) findViewById(R.id.user_name);
-        welcome.setText("Hello, " + profile.getName());
+        if(profile == null){
+            Toast.makeText(getApplication(),"Can't load Profile",Toast.LENGTH_LONG).show();
+        }
+        else {
+            TextView welcome = (TextView) findViewById(R.id.user_name);
+            welcome.setText("Hello, " + profile.getName());
+        }
     }
 
     public void logout(View v){

@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.internal.ImageRequest;
 import com.google.android.imageloader.ImageLoader;
@@ -32,7 +33,6 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
 
     private Context context;
     private final ArrayList<Friend> mList;
-    private LayoutInflater mInflater;
     private ImageLoader imageLoader;
 
     public FriendListAdapter(Context context, ArrayList<Friend> mListFriend){
@@ -67,7 +67,7 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
 
             @Override
             public void onImageError(ImageView imageView, String s, Throwable throwable) {
-
+                Toast.makeText(context,"Loading image failed",Toast.LENGTH_SHORT).show();
             }
         };
 
